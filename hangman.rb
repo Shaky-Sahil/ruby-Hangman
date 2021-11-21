@@ -3,7 +3,7 @@ class Hangman
     @@vowel = "aeiouAEIOU"
     def initialize(name)
         @name = name
-        @secret_word = generateword()
+        @secret_word = generateword().strip
         @attempts = 5
     end
 
@@ -26,7 +26,7 @@ class Hangman
     end
     
     def make_guess(guess)
-        if @secret_word.include?(guess)
+        if @secret_word.downcase.include?(guess.downcase)
             puts "successful guess"
             @@vowel += guess
             self.display
@@ -41,10 +41,15 @@ class Hangman
     end
 
 end
-game = Hangman.new("sahil")
+game = Hangman.new("Game")
 while (game.attempts>0)
     game.display
     puts "make your guess"
     guess = gets.chomp
     game.make_guess(guess)
+    puts ""
+    puts "do you want to save the game? (Enter 'y' to save)"
+    save_choice = gets.chomp
+    if save_choice == 'y'
+        game.save()
 end
