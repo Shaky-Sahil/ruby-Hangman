@@ -1,5 +1,5 @@
 class Hangman
-    attr_accessor :name, :attempts
+    attr_accessor :name, :attempts, :attempts
     @@vowel = "aeiouAEIOU"
     def initialize(name)
         @name = name
@@ -23,8 +23,28 @@ class Hangman
           end
         end
         puts ""
-    end   
+    end
+    
+    def make_guess(guess)
+        if @secret_word.include?(guess)
+            puts "successful guess"
+            @@vowel += guess
+            self.display
+        else
+            puts "guess unsucssessful"
+            @attempts -= 1
+            puts "No of attempts remaining is #{@attempts}"
+            if @attempts <= 0
+                puts "ran out of attempts \n the word is #{@secret_word}"
+            end
+        end
+    end
+
 end
 game = Hangman.new("sahil")
-puts game.name
-game.display
+while (game.attempts>0)
+    game.display
+    puts "make your guess"
+    guess = gets.chomp
+    game.make_guess(guess)
+end
