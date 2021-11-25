@@ -1,0 +1,3 @@
+o:Hangman:
+@nameI"
+sahil:ET:@secret_wordI"Jakarta;T:@attemptsi

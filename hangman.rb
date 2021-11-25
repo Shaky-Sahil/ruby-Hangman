@@ -40,8 +40,33 @@ class Hangman
         end
     end
 
+    def save
+        save_data = Marshal.dump(self)
+        file = File.open("savefiles/#{@name}.txt","w")
+        file.write(save_data)
+        file.close
+    end
+
+    def self.load
+        file_list = Dir.entries("/home/sahil/the_odin_project/ruby/projects/hangman/savefiles/")
+        file_list.each{|file_name| puts file_name}
+        puts "choose the save file to load"
+        load_file = gets.chomp
+        load_data = File.read("savefiles/#{load_file}")
+        return Marshal.load(load_data)
+    end
 end
-game = Hangman.new("Game")
+puts "do you want to load a savefile or start a new game"
+puts "enter '1' to load a game and any other key to start a new game"
+puts "Make your choice"
+choice = gets.chomp
+if(choice == '1')
+    game = Hangman.load
+else
+puts "enter the new game name"
+game_name = gets.chomp
+game = Hangman.new(game_name)
+end
 while (game.attempts>0)
     game.display
     puts "make your guess"
@@ -52,4 +77,5 @@ while (game.attempts>0)
     save_choice = gets.chomp
     if save_choice == 'y'
         game.save()
+    end
 end
