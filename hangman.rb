@@ -15,27 +15,35 @@ class Hangman
     end
 
     def display
+        display_word = ""
         @secret_word.split("").each do |letter|
           if @@vowel.include?(letter)
-            print letter
+            display_word += letter
           else
-              print " _ "
+              display_word += " _ "
           end
         end
+        puts display_word
         puts ""
+        return display_word
     end
     
     def make_guess(guess)
         if @secret_word.downcase.include?(guess.downcase)
             puts "successful guess"
             @@vowel += guess
-            self.display
+            word_status = self.display
+            if (! word_status.contains?("_"))
+                @attempts = 6
+            end
         else
             puts "guess unsucssessful"
             @attempts -= 1
             puts "No of attempts remaining is #{@attempts}"
             if @attempts <= 0
                 puts "ran out of attempts \n the word is #{@secret_word}"
+            elsif @attempts >5
+                puts "You win!!!"
             end
         end
     end
@@ -67,7 +75,7 @@ puts "enter the new game name"
 game_name = gets.chomp
 game = Hangman.new(game_name)
 end
-while (game.attempts>0)
+while (game.attempts>0 && game.attempts<=5)
     game.display
     puts "make your guess"
     guess = gets.chomp
